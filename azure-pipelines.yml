@@ -1,24 +1,32 @@
 trigger:
-- main
+  branches:
+    include:
+    - main
+stages:
+- stage: __default
+  jobs:
+  - job: Job
+    pool:
+      name: Default
+    steps:
+    - task: CmdLine@2
+      displayName: 'Run a one-line script'
+      inputs:
+        script: echo Hello, world!
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'custom'
+        custom: 'list'
+        arguments: 'package --vulnerable'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'custom'
+        custom: 'list'
+        arguments: 'package --outdated'
+    - task: CmdLine@2
+      displayName: 'Run a multi-line script'
+      inputs:
+        script: |
+          echo Add other tasks to build, test, and deploy your project.
+          echo See https://aka.ms/yaml
 
-pool:
-  name: Default
-
-steps:
-- task: UseDotNet@2
-  displayName: 'Use .Net Core sdk 2.1.x'
-  inputs:
-    packageType: sdk
-    version: 2.1.x
-    installationPath: $(Agent.ToolsDirectory)/dotnet
-    includePreviewVersions: true
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'custom'
-    custom: 'list'
-    arguments: 'package --vulnerable'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'custom'
-    custom: 'list'
-    arguments: 'package --outdated'
