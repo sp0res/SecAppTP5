@@ -5,6 +5,13 @@ pool:
   name: Default
 
 steps:
+- task: UseDotNet@2
+  displayName: 'Use .Net Core sdk 2.1.x'
+  inputs:
+    packageType: sdk
+    version: 2.1.x
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+    includePreviewVersions: true
 - task: DotNetCoreCLI@2
   inputs:
     command: 'custom'
