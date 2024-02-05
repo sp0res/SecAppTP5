@@ -7,7 +7,9 @@ trigger:
 - main
 
 pool:
-  vmImage: 'SHMULPC'
+  name: Default
+  demands:
+   - agent.name -equals Weltgeist
 
 steps:
 - script: echo Hello, world!
